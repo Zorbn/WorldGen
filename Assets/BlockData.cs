@@ -10,7 +10,7 @@ public class BlockData
         },
         {
             Block.Asphalt,
-            new BlockData(BlockMeshType.Model, BlockMesh.SlopeMesh)
+            new BlockData(BlockMeshType.Opaque, BlockMesh.CubeMesh)
         },
         {
             Block.Tile,
@@ -27,13 +27,25 @@ public class BlockData
         {
             Block.Glass,
             new BlockData(BlockMeshType.Transparent, BlockMesh.CubeMesh)
+        },
+        {
+            Block.CarpetTopSlope,
+            new BlockData(BlockMeshType.Model, BlockMesh.TopSlopeMesh)
+        },
+        {
+            Block.CarpetBottomSlope,
+            new BlockData(BlockMeshType.Model, BlockMesh.BottomSlopeMesh)
+        },
+        {
+            Block.Carpet,
+            new BlockData(BlockMeshType.Opaque, BlockMesh.CubeMesh)
         }
     };
 
     public readonly BlockMeshType MeshType;
     public readonly BlockMesh Mesh;
 
-    public BlockData(BlockMeshType meshType, BlockMesh mesh)
+    private BlockData(BlockMeshType meshType, BlockMesh mesh)
     {
         MeshType = meshType;
         Mesh = mesh;

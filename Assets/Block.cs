@@ -5,5 +5,8 @@
     Asphalt,
     Brick,
     Glass,
+    CarpetTopSlope,
+    CarpetBottomSlope,
+    Carpet,
     Barrier
 }

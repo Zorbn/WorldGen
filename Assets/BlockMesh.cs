@@ -9,7 +9,8 @@ public class BlockMesh
     public Dictionary<Direction, Vector3> Normals { get; protected set; }
 
     public static readonly BlockMesh CubeMesh = new CubeMesh();
-    public static readonly BlockMesh SlopeMesh = new SlopeMesh();
+    public static readonly BlockMesh BottomSlopeMesh = new BottomSlopeMesh();
+    public static readonly BlockMesh TopSlopeMesh = new TopSlopeMesh();
 
     private static readonly Vector3 Half = Vector3.one * 0.5f;
 

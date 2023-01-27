@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class SlopeMesh : BlockMesh
+public class TopSlopeMesh : BlockMesh
 {
-    public SlopeMesh()
+    public TopSlopeMesh()
     {
         Vertices = new Dictionary<Direction, Vector3[]>
         {
@@ -14,12 +14,22 @@ public class SlopeMesh : BlockMesh
                     new Vector3(0, 0, 1),
                     new Vector3(0, 1, 1),
                     new Vector3(1, 1, 1),
-                    new Vector3(1, 0, 1)
+                    new Vector3(1, 0, 1),
+                    new Vector3(0, 1, 1),
+                    new Vector3(0, 2, 1),
+                    new Vector3(1, 2, 1),
+                    new Vector3(1, 1, 1)
                 }
             },
             {
                 Direction.ZNeg,
-                new Vector3[] {}
+                new[]
+                {
+                    new Vector3(0, 0, 0),
+                    new Vector3(0, 1, 0),
+                    new Vector3(1, 1, 0),
+                    new Vector3(1, 0, 0)
+                }
             },
             {
                 Direction.XPos,
@@ -28,7 +38,11 @@ public class SlopeMesh : BlockMesh
                     new Vector3(1, 0, 0),
                     new Vector3(1, 0, 1),
                     new Vector3(1, 1, 1),
-                    new Vector3(1, 0, 0)
+                    new Vector3(1, 1, 0),
+                    
+                    new Vector3(1, 1, 0),
+                    new Vector3(1, 1, 1),
+                    new Vector3(1, 2, 1)
                 }
             },
             {
@@ -38,17 +52,21 @@ public class SlopeMesh : BlockMesh
                     new Vector3(0, 0, 0),
                     new Vector3(0, 0, 1),
                     new Vector3(0, 1, 1),
-                    new Vector3(0, 0, 0)
+                    new Vector3(0, 1, 0),
+                    
+                    new Vector3(0, 1, 0),
+                    new Vector3(0, 1, 1),
+                    new Vector3(0, 2, 1)
                 }
             },
             {
                 Direction.YPos,
                 new[]
                 {
-                    new Vector3(0, 0, 0),
-                    new Vector3(0, 1, 1),
-                    new Vector3(1, 1, 1),
-                    new Vector3(1, 0, 0)
+                    new Vector3(0, 1, 0),
+                    new Vector3(0, 2, 1),
+                    new Vector3(1, 2, 1),
+                    new Vector3(1, 1, 0)
                 }
             },
             {
@@ -62,41 +80,59 @@ public class SlopeMesh : BlockMesh
                 }
             }
         };
-        
+
         Uvs = new Dictionary<Direction, Vector2[]>
         {
             {
                 Direction.ZPos,
                 new[]
                 {
-                    new Vector2(1, 1),
+                    new Vector2(1, 0.5f),
                     new Vector2(1, 0),
                     new Vector2(0, 0),
+                    new Vector2(0, 0.5f),
+                    new Vector2(1, 1),
+                    new Vector2(1, 0.5f),
+                    new Vector2(0, 0.5f),
                     new Vector2(0, 1)
                 }
             },
             {
                 Direction.ZNeg,
-                new Vector2[] {}
+                new[]
+                {
+                    new Vector2(0, 1),
+                    new Vector2(0, 0),
+                    new Vector2(1, 0),
+                    new Vector2(1, 1)
+                }
             },
             {
                 Direction.XPos,
                 new[]
                 {
+                    new Vector2(1, 0.5f),
+                    new Vector2(0, 0.5f),
+                    new Vector2(0, 0),
+                    new Vector2(1, 0),
+                    
                     new Vector2(1, 1),
                     new Vector2(0, 1),
-                    new Vector2(0, 0),
-                    new Vector2(1, 0)
+                    new Vector2(0, 0.5f)
                 }
             },
             {
                 Direction.XNeg,
                 new[]
                 {
+                    new Vector2(0, 0.5f),
+                    new Vector2(1, 0.5f),
+                    new Vector2(1, 0),
+                    new Vector2(0, 0),
+                    
                     new Vector2(0, 1),
                     new Vector2(1, 1),
-                    new Vector2(1, 0),
-                    new Vector2(0, 0)
+                    new Vector2(1, 0.5f)
                 }
             },
             {
@@ -125,19 +161,19 @@ public class SlopeMesh : BlockMesh
         {
             {
                 Direction.ZPos,
-                new[] { 0, 2, 1, 0, 3, 2 }
+                new[] { 0, 2, 1, 0, 3, 2,   4, 6, 5, 4, 7, 6 }
             },
             {
                 Direction.ZNeg,
-                new int[] {}
+                new[] { 0, 1, 2, 0, 2, 3 }
             },
             {
                 Direction.XPos,
-                new[] { 0, 2, 1, 0, 3, 2 }
+                new[] { 0, 2, 1, 0, 3, 2,   4, 6, 5 }
             },
             {
                 Direction.XNeg,
-                new[] { 0, 1, 2, 0, 2, 3 }
+                new[] { 0, 1, 2, 0, 2, 3,   4, 5, 6 }
             },
             {
                 Direction.YPos,
@@ -148,7 +184,7 @@ public class SlopeMesh : BlockMesh
                 new[] { 0, 2, 1, 0, 3, 2 }
             }
         };
-        
+
         Normals = new Dictionary<Direction, Vector3>
         {
             {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeMesh : BlockMesh
+public class BottomSlopeMesh : BlockMesh
 {
-    public CubeMesh()
+    public BottomSlopeMesh()
     {
         Vertices = new Dictionary<Direction, Vector3[]>
         {
@@ -14,28 +14,12 @@ public class CubeMesh : BlockMesh
                     new Vector3(0, 0, 1),
                     new Vector3(0, 1, 1),
                     new Vector3(1, 1, 1),
-                    new Vector3(1, 0, 1),
-                    
-                    new Vector3(0, 1, 1),
-                    new Vector3(0, 2, 1),
-                    new Vector3(1, 2, 1),
-                    new Vector3(1, 1, 1)
+                    new Vector3(1, 0, 1)
                 }
             },
             {
                 Direction.ZNeg,
-                new[]
-                {
-                    new Vector3(0, 0, 0),
-                    new Vector3(0, 1, 0),
-                    new Vector3(1, 1, 0),
-                    new Vector3(1, 0, 0),
-                    
-                    new Vector3(0, 1, 0),
-                    new Vector3(0, 2, 0),
-                    new Vector3(1, 2, 0),
-                    new Vector3(1, 1, 0)
-                }
+                new Vector3[] { }
             },
             {
                 Direction.XPos,
@@ -43,13 +27,7 @@ public class CubeMesh : BlockMesh
                 {
                     new Vector3(1, 0, 0),
                     new Vector3(1, 0, 1),
-                    new Vector3(1, 1, 1),
-                    new Vector3(1, 1, 0),
-                    
-                    new Vector3(1, 1, 0),
-                    new Vector3(1, 1, 1),
-                    new Vector3(1, 2, 1),
-                    new Vector3(1, 2, 0)
+                    new Vector3(1, 1, 1)
                 }
             },
             {
@@ -58,23 +36,17 @@ public class CubeMesh : BlockMesh
                 {
                     new Vector3(0, 0, 0),
                     new Vector3(0, 0, 1),
-                    new Vector3(0, 1, 1),
-                    new Vector3(0, 1, 0),
-                    
-                    new Vector3(0, 1, 0),
-                    new Vector3(0, 1, 1),
-                    new Vector3(0, 2, 1),
-                    new Vector3(0, 2, 0)
+                    new Vector3(0, 1, 1)
                 }
             },
             {
                 Direction.YPos,
                 new[]
                 {
-                    new Vector3(0, 2, 0),
-                    new Vector3(0, 2, 1),
-                    new Vector3(1, 2, 1),
-                    new Vector3(1, 2, 0)
+                    new Vector3(0, 0, 0),
+                    new Vector3(0, 1, 1),
+                    new Vector3(1, 1, 1),
+                    new Vector3(1, 0, 0)
                 }
             },
             {
@@ -95,80 +67,52 @@ public class CubeMesh : BlockMesh
                 Direction.ZPos,
                 new[]
                 {
-                    new Vector2(1, 0),
-                    new Vector2(1, 0.5f),
-                    new Vector2(0, 0.5f),
-                    new Vector2(0, 0),
-                    
-                    new Vector2(1, 0.5f),
                     new Vector2(1, 1),
-                    new Vector2(0, 1),
-                    new Vector2(0, 0.5f)
+                    new Vector2(1, 0),
+                    new Vector2(0, 0),
+                    new Vector2(0, 1)
                 }
             },
             {
                 Direction.ZNeg,
-                new[]
-                {
-                    new Vector2(0, 0),
-                    new Vector2(0, 0.5f),
-                    new Vector2(1, 0.5f),
-                    new Vector2(1, 0),
-                    
-                    new Vector2(0, 0.5f),
-                    new Vector2(0, 1),
-                    new Vector2(1, 1),
-                    new Vector2(1, 0.5f)
-                }
+                new Vector2[] { }
             },
             {
                 Direction.XPos,
                 new[]
                 {
-                    new Vector2(1, 0),
-                    new Vector2(0, 0),
-                    new Vector2(0, 0.5f),
-                    new Vector2(1, 0.5f),
-                    
                     new Vector2(1, 0.5f),
                     new Vector2(0, 0.5f),
-                    new Vector2(0, 1),
-                    new Vector2(1, 1)
+                    new Vector2(0, 0)
                 }
             },
             {
                 Direction.XNeg,
                 new[]
                 {
-                    new Vector2(0, 0),
-                    new Vector2(1, 0),
-                    new Vector2(1, 0.5f),
-                    new Vector2(0, 0.5f),
-                    
                     new Vector2(0, 0.5f),
                     new Vector2(1, 0.5f),
-                    new Vector2(1, 1),
-                    new Vector2(0, 1)
+                    new Vector2(1, 0)
                 }
             },
             {
                 Direction.YPos,
                 new[]
                 {
-                    new Vector2(0, 0.5f),
+                    new Vector2(0, 1),
                     new Vector2(0, 0),
                     new Vector2(1, 0),
-                    new Vector2(1, 0.5f)
+                    new Vector2(1, 1)
                 }
             },
             {
                 Direction.YNeg,
                 new[]
                 {
-                    new Vector2(0, 0.5f),
+                    new Vector2(0, 1),
                     new Vector2(0, 0),
                     new Vector2(1, 0),
-                    new Vector2(1, 0.5f)
+                    new Vector2(1, 1)
                 }
             }
         };
@@ -177,19 +121,19 @@ public class CubeMesh : BlockMesh
         {
             {
                 Direction.ZPos,
-                new[] { 0, 2, 1, 0, 3, 2, 4, 6, 5, 4, 7, 6 }
+                new[] { 0, 2, 1, 0, 3, 2 }
             },
             {
                 Direction.ZNeg,
-                new[] { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7 }
+                new int[] { }
             },
             {
                 Direction.XPos,
-                new[] { 0, 2, 1, 0, 3, 2, 4, 6, 5, 4, 7, 6 }
+                new[] { 0, 2, 1 }
             },
             {
                 Direction.XNeg,
-                new[] { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7 }
+                new[] { 0, 1, 2 }
             },
             {
                 Direction.YPos,
@@ -221,7 +165,7 @@ public class CubeMesh : BlockMesh
             },
             {
                 Direction.YPos,
-                Direction.YPos.ToVec()
+                new Vector3(0, 1, -1).normalized
             },
             {
                 Direction.YNeg,

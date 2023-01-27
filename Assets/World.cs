@@ -3,77 +3,81 @@ using Random = System.Random;
 
 public class World : MonoBehaviour
 {
+    public static readonly Vector3Int BlockScale = new(1, 2, 1);
+    
     [SerializeField] private int sizeInChunks = 4;
+    [SerializeField] private int heightInChunks = 2;
     [SerializeField] private GameObject chunkPrefab;
 
-    private Chunk[] chunks;
-    private IWorldGenerator worldGenerator;
-    private BlockTextureArray blockTextureArray;
-    private Random random;
-    
+    private Chunk[] _chunks;
+    private IWorldGenerator _worldGenerator;
+    private BlockTextureArray _blockTextureArray;
+    private Random _random;
+
     private void Start()
     {
-        blockTextureArray = new BlockTextureArray();
-        blockTextureArray.Initialize();
-        chunks = new Chunk[sizeInChunks * sizeInChunks];
-        
+        _blockTextureArray = new BlockTextureArray();
+        _blockTextureArray.Initialize();
+        _chunks = new Chunk[sizeInChunks * heightInChunks * sizeInChunks];
+
         for (var z = 0; z < sizeInChunks; z++)
+        for (var y = 0; y < heightInChunks; y++)
+        for (var x = 0; x < sizeInChunks; x++)
         {
-            for (var x = 0; x < sizeInChunks; x++)
-            {
-                var chunkWorldPos = new Vector3Int(x * Chunk.Size, 0, z * Chunk.Size);
-                GameObject newChunkGameObject = Instantiate(chunkPrefab, chunkWorldPos, Quaternion.identity);
-                var newChunk = newChunkGameObject.GetComponent<Chunk>();
-                newChunk.world = this;
-                newChunk.chunkPosition = chunkWorldPos;
-                newChunk.material = blockTextureArray.Material;
-                newChunk.Initialize();
-                SetChunk(newChunk, new Vector3Int(x, 0, z));
-            }
+            var position = new Vector3Int(x, y, z);
+            var chunkWorldPos = position * Chunk.Size;
+            var newChunkGameObject = Instantiate(chunkPrefab, chunkWorldPos * BlockScale, Quaternion.identity);
+            var newChunk = newChunkGameObject.GetComponent<Chunk>();
+            newChunk.world = this;
+            newChunk.chunkPosition = chunkWorldPos;
+            newChunk.BlockTextureArray = _blockTextureArray;
+            newChunk.Initialize();
+            SetChunk(newChunk, position);
         }
 
-        random = new Random();
-        worldGenerator = new CityWorldGenerator();
-        worldGenerator.Generate(random, this, new Vector3Int(sizeInChunks * Chunk.Size, Chunk.Size, sizeInChunks * Chunk.Size));
+        _random = new Random();
+        _worldGenerator = new CityWorldGenerator();
+        _worldGenerator.Generate(_random, this,
+            new Vector3Int(sizeInChunks * Chunk.Size, heightInChunks * Chunk.Size, sizeInChunks * Chunk.Size));
     }
 
     public Chunk GetChunk(Vector3Int position)
     {
-        if (position.x < 0 || position.x >= sizeInChunks || position.y != 0 ||
+        if (position.x < 0 || position.x >= sizeInChunks || position.y < 0 || position.y >= heightInChunks ||
             position.z < 0 || position.z >= sizeInChunks) return null;
-        return chunks[position.x + position.z * sizeInChunks];
+        return _chunks[position.x + position.y * sizeInChunks + position.z * sizeInChunks * heightInChunks];
     }
 
     public void SetChunk(Chunk chunk, Vector3Int position)
     {
-        if (position.x < 0 || position.x >= sizeInChunks || position.y != 0 ||
+        if (position.x < 0 || position.x >= sizeInChunks || position.y < 0 || position.y >= heightInChunks ||
             position.z < 0 || position.z >= sizeInChunks) return;
-        chunks[position.x + position.z * sizeInChunks] = chunk;
+        _chunks[position.x + position.y * sizeInChunks + position.z * sizeInChunks * heightInChunks] = chunk;
     }
-    
+
     public Block GetBlock(Vector3Int position)
     {
-        Vector3Int chunkPos = position / Chunk.Size;
-        Vector3Int localPos = position - chunkPos * Chunk.Size;
-        Chunk chunk = GetChunk(chunkPos);
+        var chunkPos = position / Chunk.Size;
+        var localPos = position - chunkPos * Chunk.Size;
+        var chunk = GetChunk(chunkPos);
         if (chunk is null) return Block.Barrier;
         return chunk.GetBlock(localPos);
     }
-    
+
     public Direction GetBlockOrientation(Vector3Int position)
     {
-        Vector3Int chunkPos = position / Chunk.Size;
-        Vector3Int localPos = position - chunkPos * Chunk.Size;
-        Chunk chunk = GetChunk(chunkPos);
+        var chunkPos = position / Chunk.Size;
+        var localPos = position - chunkPos * Chunk.Size;
+        var chunk = GetChunk(chunkPos);
         if (chunk is null) return Direction.ZPos;
         return chunk.GetBlockOrientation(localPos);
     }
 
     public void SetBlock(Block block, Vector3Int position, Direction orientation = Direction.ZPos)
     {
-        Vector3Int chunkPos = position / Chunk.Size;
-        Vector3Int localPos = position - chunkPos * Chunk.Size;
-        Chunk chunk = GetChunk(chunkPos);
+        var chunkPos = position / Chunk.Size;
+        var localPos = position - chunkPos * Chunk.Size;
+        var chunk = GetChunk(chunkPos);
         if (chunk is null) return;
         chunk.SetBlock(block, localPos, orientation);
     }
@@ -81,17 +85,11 @@ public class World : MonoBehaviour
     public void SetRect(Block block, Vector3Int position, Vector3Int size, Direction orientation = Direction.ZPos)
     {
         for (var z = 0; z < size.z; z++)
-        {
-            for (var y = 0; y < size.y; y++)
-            {
-                for (var x = 0; x < size.x; x++)
-                {
-                    SetBlock(block, position + new Vector3Int(x, y, z), orientation);
-                }
-            }
-        }
+        for (var y = 0; y < size.y; y++)
+        for (var x = 0; x < size.x; x++)
+            SetBlock(block, position + new Vector3Int(x, y, z), orientation);
     }
-    
+
     public void SetRectHollow(Block block, Vector3Int position, Vector3Int size, Direction orientation = Direction.ZPos)
     {
         SetRect(block, position, new Vector3Int(size.x, size.y, 1), orientation);
